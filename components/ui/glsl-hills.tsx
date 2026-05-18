@@ -13,9 +13,19 @@ interface GLSLHillsProps {
 
 const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize = 256, speed = 0.5 }: GLSLHillsProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isVisible = useRef<boolean>(true);
 
   useEffect(() => {
     if (!canvasRef.current) return;
+
+    // Visibility Observer to pause rendering when not in view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting;
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvasRef.current);
 
     // Plane class
     class Plane {
@@ -166,7 +176,11 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
     }
 
     // Three.js setup
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, antialias: false });
+    const renderer = new THREE.WebGLRenderer({ 
+      canvas: canvasRef.current, 
+      antialias: false,
+      powerPreference: "high-performance"
+    });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     const clock = new THREE.Clock();
@@ -181,8 +195,11 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
 
     let requestID: number;
     const render = () => {
-      plane.render(clock.getDelta());
-      renderer.render(scene, camera);
+      // Pause animation if not visible
+      if (isVisible.current) {
+        plane.render(clock.getDelta());
+        renderer.render(scene, camera);
+      }
     };
 
     const renderLoop = () => {
@@ -204,6 +221,7 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
     init();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(requestID);
       renderer.dispose();

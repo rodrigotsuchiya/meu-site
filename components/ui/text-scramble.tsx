@@ -1,5 +1,5 @@
 'use client';
-import { type JSX, useEffect, useState } from 'react';
+import { type JSX, useEffect, useState, useRef } from 'react';
 import { motion, MotionProps } from 'framer-motion';
 
 type TextScrambleProps = {
@@ -32,18 +32,18 @@ export function TextScramble({
   );
   const [displayText, setDisplayText] = useState(children);
   const [isAnimating, setIsAnimating] = useState(false);
+  const frameId = useRef<number>(0);
+  const startTime = useRef<number>(0);
+  const lastUpdate = useRef<number>(0);
 
-  const scramble = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
+  const scramble = (timestamp: number) => {
+    if (!startTime.current) startTime.current = timestamp;
+    const elapsed = (timestamp - startTime.current) / 1000;
+    const progress = Math.min(elapsed / duration, 1);
 
-    const steps = duration / speed;
-    let step = 0;
-
-    const interval = setInterval(() => {
+    // Throttle updates based on speed prop
+    if (timestamp - lastUpdate.current >= speed * 1000) {
       let scrambled = '';
-      const progress = step / steps;
-
       for (let i = 0; i < children.length; i++) {
         if (children[i] === ' ') {
           scrambled += ' ';
@@ -59,22 +59,30 @@ export function TextScramble({
       }
 
       setDisplayText(scrambled);
-      step++;
+      lastUpdate.current = timestamp;
+    }
 
-      if (step > steps) {
-        clearInterval(interval);
-        setDisplayText(children);
-        setIsAnimating(false);
-        onScrambleComplete?.();
-      }
-    }, speed * 1000);
+    if (progress < 1) {
+      frameId.current = requestAnimationFrame(scramble);
+    } else {
+      setDisplayText(children);
+      setIsAnimating(false);
+      onScrambleComplete?.();
+    }
   };
 
   useEffect(() => {
-    if (!trigger) return;
+    if (!trigger || isAnimating) return;
 
-    scramble();
-  }, [trigger]);
+    setIsAnimating(true);
+    startTime.current = 0;
+    lastUpdate.current = 0;
+    frameId.current = requestAnimationFrame(scramble);
+
+    return () => {
+      if (frameId.current) cancelAnimationFrame(frameId.current);
+    };
+  }, [trigger, children]);
 
   return (
     <MotionComponent className={className} {...props}>
