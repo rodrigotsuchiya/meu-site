@@ -10,20 +10,17 @@ import { cn } from "@/lib/utils"
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 type CarouselOptions = UseCarouselParameters[0]
-type CarouselPlugin = UseCarouselParameters[1]
 
 type CarouselProps = {
   opts?: CarouselOptions
-  plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
 }
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
-  api: ReturnType<typeof useEmblaCarousel>[1]
   orientation: "horizontal" | "vertical"
-} & CarouselProps
+}
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
@@ -44,24 +41,16 @@ const Carousel = React.forwardRef<
       orientation = "horizontal",
       opts,
       setApi,
-      plugins,
       className,
       children,
       ...props
     },
     ref,
   ) => {
-    const [carouselRef, api] = useEmblaCarousel(
-      {
-        ...opts,
-        axis: orientation === "horizontal" ? "x" : "y",
-      },
-      plugins,
-    )
-
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) return
-    }, [])
+    const [carouselRef, api] = useEmblaCarousel({
+      ...opts,
+      axis: orientation === "horizontal" ? "x" : "y",
+    })
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -81,23 +70,11 @@ const Carousel = React.forwardRef<
       setApi(api)
     }, [api, setApi])
 
-    React.useEffect(() => {
-      if (!api) return
-      api.on("reInit", onSelect)
-      api.on("select", onSelect)
-      return () => {
-        api?.off("select", onSelect)
-      }
-    }, [api, onSelect])
-
     return (
       <CarouselContext.Provider
         value={{
           carouselRef,
-          api: api,
-          opts,
-          orientation:
-            orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          orientation,
         }}
       >
         <div
