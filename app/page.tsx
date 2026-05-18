@@ -206,22 +206,22 @@ export default function Home() {
               <TextScramble className="text-2xl font-medium opacity-80 leading-snug">Nossa filosofia é simples: resolver problemas reais através de código limpo e automação inteligente. Direto ao ponto.</TextScramble>
             </div>
             <div className="p-8 lg:p-20 bg-bg">
-              <form action="#" method="POST" className="space-y-10">
+              <form action="https://formspree.io/f/rodri.tsuchiya@gmail.com" method="POST" className="space-y-10">
                 <div className="space-y-4">
                   <label htmlFor="nome" className="block text-sm font-bold uppercase tracking-widest opacity-60">Nome / Empresa</label>
-                  <input type="text" id="nome" className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="Sua Empresa Ltda" />
+                  <input type="text" id="nome" name="nome" required className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="Sua Empresa Ltda" />
                 </div>
                 <div className="space-y-4">
                   <label htmlFor="whatsapp" className="block text-sm font-bold uppercase tracking-widest opacity-60">WhatsApp</label>
-                  <input type="tel" id="whatsapp" className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="(15) 90000-0000" />
+                  <input type="tel" id="whatsapp" name="whatsapp" required className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="(15) 90000-0000" />
                 </div>
                 <div className="space-y-4">
                   <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest opacity-60">E-mail</label>
-                  <input type="email" id="email" className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="nome@empresa.com" />
+                  <input type="email" id="email" name="email" required className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="nome@empresa.com" />
                 </div>
                 <div className="space-y-4">
                   <label htmlFor="gargalo" className="block text-sm font-bold uppercase tracking-widest opacity-60">Principal Gargalo</label>
-                  <select defaultValue="" id="gargalo" className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none appearance-none cursor-pointer">
+                  <select defaultValue="" id="gargalo" name="gargalo" required className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none appearance-none cursor-pointer">
                     <option value="" disabled className="text-black/20">Selecione uma opção...</option>
                     <option value="visibilidade" className="text-black">Falta de site / Presença digital</option>
                     <option value="lentidao" className="text-black">Processos lentos e manuais</option>
