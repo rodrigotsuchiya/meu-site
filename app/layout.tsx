@@ -8,6 +8,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tsuchiyatech.com.br"),
   title: "Automação com IA em Sorocaba | Tsuchiya Tech",
   description: "Transforme seu negócio com a agência de automação com inteligência artificial em Sorocaba. Criação de sites e sistemas com agilidade. Agende sua análise.",
   openGraph: {
