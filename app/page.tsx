@@ -55,16 +55,18 @@ export default function Home() {
           </div>
           <div className="grid lg:grid-cols-12 gap-8 items-end fade-up relative z-10">
             <div className="lg:col-span-8">
-              <h1 className="text-5xl md:text-7xl lg:text-[7rem] leading-[0.9] font-bold tracking-tighter uppercase mb-8 lg:mb-0">
+              <h1 className="text-5xl md:text-7xl lg:text-[7rem] leading-[0.9] font-bold tracking-tighter uppercase mb-8 lg:mb-0 min-h-[1.8em] md:min-h-[2.7em]">
                 <TextScramble as="span">Sites, sistemas</TextScramble> <br/>
                 <TextScramble as="span">& automação</TextScramble> <br/>
                 <TextScramble as="span">com IA.</TextScramble>
               </h1>
             </div>
             <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right pb-2">
-              <TextScramble className="text-lg md:text-2xl font-medium max-w-sm mb-10 leading-snug">
-                Para empresas que precisam de visibilidade ou desejam eliminar o trabalho braçal. Engenharia de software ágil, técnica e direto ao ponto.
-              </TextScramble>
+              <div className="min-h-[100px] md:min-h-[120px]">
+                <TextScramble className="text-lg md:text-2xl font-medium max-w-sm mb-10 leading-snug">
+                  Para empresas que precisam de visibilidade ou desejam eliminar o trabalho braçal. Engenharia de software ágil, técnica e direto ao ponto.
+                </TextScramble>
+              </div>
               <a 
                 href="https://wa.me/5515991703282?text=Ol%C3%A1%21+Vim+pelo+site+da+Tsuchiya+Tech+e+gostaria+de+falar+com+o+desenvolvedor+sobre+um+projeto" 
                 target="_blank" 
