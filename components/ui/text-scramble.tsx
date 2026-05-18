@@ -32,9 +32,8 @@ export function TextScramble({
   );
   const [displayText, setDisplayText] = useState(children);
   const [isAnimating, setIsAnimating] = useState(false);
-  const text = children;
 
-  const scramble = async () => {
+  const scramble = () => {
     if (isAnimating) return;
     setIsAnimating(true);
 
@@ -45,14 +44,14 @@ export function TextScramble({
       let scrambled = '';
       const progress = step / steps;
 
-      for (let i = 0; i < text.length; i++) {
-        if (text[i] === ' ') {
+      for (let i = 0; i < children.length; i++) {
+        if (children[i] === ' ') {
           scrambled += ' ';
           continue;
         }
 
-        if (progress * text.length > i) {
-          scrambled += text[i];
+        if (progress * children.length > i) {
+          scrambled += children[i];
         } else {
           scrambled +=
             characterSet[Math.floor(Math.random() * characterSet.length)];
@@ -64,7 +63,7 @@ export function TextScramble({
 
       if (step > steps) {
         clearInterval(interval);
-        setDisplayText(text);
+        setDisplayText(children);
         setIsAnimating(false);
         onScrambleComplete?.();
       }

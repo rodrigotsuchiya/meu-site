@@ -57,7 +57,7 @@ export default function Home() {
           </div>
           <div className="grid lg:grid-cols-12 gap-8 items-end fade-up relative z-10">
             <div className="lg:col-span-8">
-              <h1 className="text-5xl md:text-7xl lg:text-[7rem] leading-[0.9] font-bold tracking-tighter uppercase mb-8 lg:mb-0 min-h-[1.8em] md:min-h-[2.7em]">
+              <h1 className="text-5xl md:text-7xl lg:text-[7rem] leading-[0.9] font-bold tracking-tighter uppercase mb-8 lg:mb-0">
                 Sites, sistemas <br/>
                 & automação <br/>
                 com IA.
