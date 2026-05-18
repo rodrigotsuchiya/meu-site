@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { 
   ArrowRight
 } from "lucide-react";
-import { Gallery4Demo } from "@/components/ui/gallery4-demo";
-import { GLSLHills } from "@/components/ui/glsl-hills";
-import { TextScramble } from "@/components/ui/text-scramble";
+
+const Gallery4Demo = dynamic(() => import("@/components/ui/gallery4-demo").then(mod => mod.Gallery4Demo), { ssr: false });
+const GLSLHills = dynamic(() => import("@/components/ui/glsl-hills").then(mod => mod.GLSLHills), { ssr: false });
+const TextScramble = dynamic(() => import("@/components/ui/text-scramble").then(mod => mod.TextScramble), { ssr: false });
 
 export default function Home() {
   useEffect(() => {
