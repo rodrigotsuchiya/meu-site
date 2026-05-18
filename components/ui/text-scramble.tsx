@@ -79,7 +79,8 @@ export function TextScramble({
 
   return (
     <MotionComponent className={className} {...props}>
-      {displayText}
+      <span className="sr-only">{children}</span>
+      <span aria-hidden="true">{displayText}</span>
     </MotionComponent>
   );
 }
