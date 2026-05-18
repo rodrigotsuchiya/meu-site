@@ -6,7 +6,7 @@ import {
   ArrowRight
 } from "lucide-react";
 
-const Gallery4Demo = dynamic(() => import("@/components/ui/gallery4-demo").then(mod => mod.Gallery4Demo), { ssr: false });
+const Gallery4 = dynamic(() => import("@/components/ui/gallery4").then(mod => mod.Gallery4), { ssr: false });
 const GLSLHills = dynamic(() => import("@/components/ui/glsl-hills").then(mod => mod.GLSLHills), { ssr: false });
 const TextScramble = dynamic(() => import("@/components/ui/text-scramble").then(mod => mod.TextScramble), { ssr: false });
 
@@ -191,7 +191,7 @@ export default function Home() {
 
         {/* Gallery Section */}
         <section id="projetos" className="brutal-border-b">
-          <Gallery4Demo />
+          <Gallery4 />
         </section>
 
         {/* 4. Formulário / CTA Final */}

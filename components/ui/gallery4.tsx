@@ -20,16 +20,27 @@ export interface Gallery4Item {
   image: string;
 }
 
+const defaultItems: Gallery4Item[] = [
+  {
+    id: "trono-de-davi",
+    title: "Comunidade Cristã Trono de Davi",
+    description:
+      "Desenvolvimento de ecossistema digital completo com foco em evangelização, formação teológica e gestão de comunidade. Uma plataforma moderna que une tradição e tecnologia.",
+    href: "https://www.tronodedavi.com.br/",
+    image: "/trono_de_davi.png",
+  },
+];
+
 export interface Gallery4Props {
-  title: string;
-  description: string;
-  items: Gallery4Item[];
+  title?: string;
+  description?: string;
+  items?: Gallery4Item[];
 }
 
 const Gallery4 = ({
-  title,
-  description,
-  items,
+  title = "Projetos em Destaque",
+  description = "Explore como a Tsuchiya Tech utiliza engenharia de software de ponta e automação inteligente para transformar visões em realidade digital.",
+  items = defaultItems,
 }: Gallery4Props) => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
