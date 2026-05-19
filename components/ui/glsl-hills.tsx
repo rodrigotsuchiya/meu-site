@@ -132,7 +132,7 @@ const FRAGMENT_SHADER = `
   }
 `;
 
-const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize = 128, speed = 0.5 }: GLSLHillsProps) => {
+const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize = 64, speed = 0.5 }: GLSLHillsProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isVisible = useRef<boolean>(true);
   const requestID = useRef<number>(0);
