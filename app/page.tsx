@@ -159,7 +159,7 @@ export default function Home() {
           </div>
           
           <div className="opacity-50 text-center md:text-right">
-            Sorocaba - SP &copy; 2024
+            Sorocaba - SP &copy; 2026
           </div>
         </div>
       </footer>
