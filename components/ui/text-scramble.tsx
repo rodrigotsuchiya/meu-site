@@ -38,31 +38,38 @@ export function TextScramble({
   const startTime = useRef<number>(0);
   const lastUpdate = useRef<number>(0);
 
+  // Pre-calculate length and character set for micro-optimization
+  const childrenLength = children.length;
+  const charsLength = characterSet.length;
+
   const scramble = (timestamp: number) => {
     if (!startTime.current) startTime.current = timestamp;
     const elapsed = (timestamp - startTime.current) / 1000;
     const progress = Math.min(elapsed / duration, 1);
 
     // Throttle updates based on speed prop
-    if (timestamp - lastUpdate.current >= speed * 1000) {
+    // Use 40ms (25fps) as a minimum floor to save CPU cycles on mobile
+    const throttleThreshold = Math.max(speed * 1000, 40);
+
+    if (timestamp - lastUpdate.current >= throttleThreshold) {
       let scrambled = '';
-      for (let i = 0; i < children.length; i++) {
-        if (children[i] === ' ') {
+      for (let i = 0; i < childrenLength; i++) {
+        const char = children[i];
+        if (char === ' ') {
           scrambled += ' ';
           continue;
         }
 
-        if (progress * children.length > i) {
-          scrambled += children[i];
+        if (progress * childrenLength > i) {
+          scrambled += char;
         } else {
-          scrambled +=
-            characterSet[Math.floor(Math.random() * characterSet.length)];
+          scrambled += characterSet[Math.floor(Math.random() * charsLength)];
         }
       }
 
-      // DIRECT DOM UPDATE: Bypasses React reconciliation
+      // DIRECT DOM UPDATE: .textContent is slightly faster than .innerText
       if (displayRef.current) {
-        displayRef.current.innerText = scrambled;
+        displayRef.current.textContent = scrambled;
       }
       
       lastUpdate.current = timestamp;
@@ -72,7 +79,7 @@ export function TextScramble({
       frameId.current = requestAnimationFrame(scramble);
     } else {
       if (displayRef.current) {
-        displayRef.current.innerText = children;
+        displayRef.current.textContent = children;
       }
       isAnimating.current = false;
       onScrambleComplete?.();
