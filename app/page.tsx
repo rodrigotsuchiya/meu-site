@@ -219,7 +219,7 @@ function ContactSection() {
           </FadeUp>
         </div>
         <div className="p-8 lg:p-20 bg-bg">
-          <form action="https://formspree.io/f/rodri.tsuchiya@gmail.com" method="POST" className="space-y-10">
+          <form action="https://formspree.io/f/xojbjdpa" method="POST" className="space-y-10">
             <div className="space-y-4">
               <label htmlFor="nome" className="block text-sm font-bold uppercase tracking-widest opacity-60">Nome / Empresa</label>
               <input type="text" id="nome" name="nome" required className="w-full bg-transparent brutal-border-b border-black/30 py-3 text-2xl font-medium focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-black/20" placeholder="Sua Empresa Ltda" />
