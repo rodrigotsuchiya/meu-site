@@ -44,6 +44,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://wa.me" />
+        <link rel="preconnect" href="https://formspree.io" />
+        <link rel="preconnect" href="https://api.whatsapp.com" />
+      </head>
       <body className={`${spaceGrotesk.variable} font-sans antialiased selection:bg-black selection:text-bg`}>
         {children}
       </body>

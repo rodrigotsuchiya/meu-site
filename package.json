@@ -34,11 +34,12 @@
     "vercel": "^54.1.0"
   },
   "browserslist": [
-    "last 2 versions",
+    "last 1 chrome version",
+    "last 1 safari version",
+    "last 1 firefox version",
+    "last 1 edge version",
     "not dead",
-    "chrome >= 93",
-    "firefox >= 91",
-    "safari >= 15.4",
-    "edge >= 93"
+    "chrome >= 108",
+    "safari >= 16.1"
   ]
 }
