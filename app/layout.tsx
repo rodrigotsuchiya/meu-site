@@ -5,6 +5,8 @@ import "./globals.css";
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  display: "swap", // Garante que o texto seja visível imediatamente com fonte do sistema
+  preload: true,
 });
 
 export const metadata: Metadata = {

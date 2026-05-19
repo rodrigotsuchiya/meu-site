@@ -11,7 +11,9 @@ const GLSLHills = dynamic(() => import("@/components/ui/glsl-hills").then(mod =>
 
 const TextScramble = dynamic(() => import("@/components/ui/text-scramble").then(mod => mod.TextScramble), { 
   ssr: false,
-  loading: ({ children }: any) => <span>{children}</span> 
+  // IMPORTANTE PARA LCP: O fallback deve ser o texto original estático.
+  // Isso garante que o motor de busca e o primeiro render mostrem o conteúdo sem JS.
+  loading: ({ children }: any) => <>{children}</> 
 });
 
 const Gallery4 = dynamic(() => import("@/components/ui/gallery4").then(mod => mod.Gallery4), { 
