@@ -1,23 +1,7 @@
-import React, { Suspense } from "react";
-import dynamic from "next/dynamic";
+import React from "react";
 import { ArrowRight } from "lucide-react";
 import { FadeUp } from "@/components/ui/fade-up";
-
-// Importações Dinâmicas Estratégicas
-const GLSLHills = dynamic(() => import("@/components/ui/glsl-hills").then(mod => mod.GLSLHills), { 
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-bg/50" /> 
-});
-
-const TextScramble = dynamic(() => import("@/components/ui/text-scramble").then(mod => mod.TextScramble), { 
-  ssr: false,
-  loading: ({ children }: any) => <span>{children}</span> 
-});
-
-const Gallery4 = dynamic(() => import("@/components/ui/gallery4").then(mod => mod.Gallery4), { 
-  ssr: false,
-  loading: () => <div className="h-[500px] animate-pulse bg-black/5" />
-});
+import { DynamicHills, DynamicText, DynamicGallery } from "@/components/ui/client-wrappers";
 
 export default function Home() {
   return (
@@ -45,9 +29,7 @@ export default function Home() {
         {/* 1. Hero Section */}
         <section className="relative min-h-[85vh] flex flex-col justify-end px-6 pb-16 brutal-border-b overflow-hidden">
           <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-            <Suspense fallback={null}>
-              <GLSLHills width="100%" height="100%" />
-            </Suspense>
+            <DynamicHills />
           </div>
           <div className="grid lg:grid-cols-12 gap-8 items-end relative z-10">
             <div className="lg:col-span-8">
@@ -61,9 +43,9 @@ export default function Home() {
             </div>
             <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right pb-2">
               <div className="min-h-[100px] md:min-h-[120px]">
-                <TextScramble className="text-lg md:text-2xl font-medium max-w-sm mb-10 leading-snug">
+                <DynamicText className="text-lg md:text-2xl font-medium max-w-sm mb-10 leading-snug">
                   Para empresas que precisam de visibilidade ou desejam eliminar o trabalho braçal. Engenharia de software ágil, técnica e direto ao ponto.
-                </TextScramble>
+                </DynamicText>
               </div>
               <FadeUp delay={200}>
                 <a 
@@ -155,9 +137,7 @@ export default function Home() {
 
         {/* Gallery Section */}
         <section id="projetos" className="brutal-border-b">
-          <Suspense fallback={<div className="h-[500px] animate-pulse bg-black/5" />}>
-            <Gallery4 />
-          </Suspense>
+          <DynamicGallery />
         </section>
 
         {/* 4. Formulário / CTA Final */}
