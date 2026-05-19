@@ -132,9 +132,10 @@ const FRAGMENT_SHADER = `
   }
 `;
 
-const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize = 256, speed = 0.5 }: GLSLHillsProps) => {
+const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize = 128, speed = 0.5 }: GLSLHillsProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isVisible = useRef<boolean>(true);
+  const requestID = useRef<number>(0);
   
   // Memoize uniforms to keep the same object reference
   const uniforms = useMemo(() => ({
@@ -143,15 +144,6 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
 
   useEffect(() => {
     if (!canvasRef.current) return;
-
-    // Visibility Observer to pause rendering when not in view
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible.current = entry.isIntersecting;
-      },
-      { threshold: 0.01 }
-    );
-    observer.observe(canvasRef.current);
 
     // Three.js setup
     const renderer = new THREE.WebGLRenderer({ 
@@ -182,14 +174,22 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
-    let requestID: number;
     const render = () => {
       if (isVisible.current) {
         uniforms.time.value += clock.getDelta() * speed;
         renderer.render(scene, camera);
       }
-      requestID = requestAnimationFrame(render);
+      requestID.current = requestAnimationFrame(render);
     };
+
+    // Visibility Observer to completely pause the animation loop
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting;
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvasRef.current);
 
     const init = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -199,7 +199,7 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
       scene.add(mesh);
       window.addEventListener('resize', resize);
       resize();
-      requestID = requestAnimationFrame(render);
+      requestID.current = requestAnimationFrame(render);
     };
 
     init();
@@ -207,7 +207,7 @@ const GLSLHills = ({ width = '100vw', height = '100vh', cameraZ = 125, planeSize
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', resize);
-      cancelAnimationFrame(requestID);
+      if (requestID.current) cancelAnimationFrame(requestID.current);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
