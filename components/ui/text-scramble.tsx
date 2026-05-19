@@ -1,5 +1,5 @@
 'use client';
-import { type JSX, useEffect, useState, useRef } from 'react';
+import { type JSX, useEffect, useRef } from 'react';
 import { motion, MotionProps } from 'framer-motion';
 
 type TextScrambleProps = {
@@ -30,8 +30,10 @@ export function TextScramble({
   const MotionComponent = motion.create(
     Component as keyof JSX.IntrinsicElements
   );
-  const [displayText, setDisplayText] = useState(children);
-  const [isAnimating, setIsAnimating] = useState(false);
+  
+  // Use a ref for the display element to bypass React state for animations
+  const displayRef = useRef<HTMLSpanElement>(null);
+  const isAnimating = useRef(false);
   const frameId = useRef<number>(0);
   const startTime = useRef<number>(0);
   const lastUpdate = useRef<number>(0);
@@ -58,23 +60,29 @@ export function TextScramble({
         }
       }
 
-      setDisplayText(scrambled);
+      // DIRECT DOM UPDATE: Bypasses React reconciliation
+      if (displayRef.current) {
+        displayRef.current.innerText = scrambled;
+      }
+      
       lastUpdate.current = timestamp;
     }
 
     if (progress < 1) {
       frameId.current = requestAnimationFrame(scramble);
     } else {
-      setDisplayText(children);
-      setIsAnimating(false);
+      if (displayRef.current) {
+        displayRef.current.innerText = children;
+      }
+      isAnimating.current = false;
       onScrambleComplete?.();
     }
   };
 
   useEffect(() => {
-    if (!trigger || isAnimating) return;
+    if (!trigger || isAnimating.current) return;
 
-    setIsAnimating(true);
+    isAnimating.current = true;
     startTime.current = 0;
     lastUpdate.current = 0;
     frameId.current = requestAnimationFrame(scramble);
@@ -87,7 +95,7 @@ export function TextScramble({
   return (
     <MotionComponent className={className} {...props}>
       <span className="sr-only">{children}</span>
-      <span aria-hidden="true">{displayText}</span>
+      <span ref={displayRef} aria-hidden="true">{children}</span>
     </MotionComponent>
   );
 }
